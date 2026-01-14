@@ -11,51 +11,25 @@ CREATE TABLE clients (
 -- ТЕСТОВЫЕ ДАННЫЕ:
 INSERT INTO clients VALUES
 (1, 'Иванов Иван Сергеевич', 45000, 18000, 'VIP', 740),
-(
-    2,
-    'Смирнова Мария Викторовна',
-    3000,
-    18000,
-    'Обычный',
-    520
-),
-(
-    3,
-    'Кузнецов Андрей Петрович',
-    25000,
-    8000,
-    'Премиум',
-    680
-),
-(
-    4,
-    'Новиков Сергей Иванович',
-    20000,
-    10000,
-    'Заблокирован',
-    300
-),
-(
-    5,
-    'Петрова Ольга Алексеевна',
-    4000,
-    20000,
-    'Обычный',
-    450
-),
+(2, 'Смирнова Мария Викторовна', 3000, 18000, 'Обычный', 520),
+(3, 'Кузнецов Андрей Петрович', 25000, 8000, 'Премиум', 680),
+(4, 'Новиков Сергей Иванович', 20000, 10000, 'Заблокирован', 300),
+(5, 'Петрова Ольга Алексеевна', 4000, 20000, 'Обычный', 450),
 (6, 'Федоров Николай Павлович', 48000, 15000, 'VIP', 710);
 
 -- РЕШЕНИЕ:
-
-SELECT *
+SELECT
+    client_id,
+    full_name,
+    balance,
+    debt,
+    category,
+    credit_score
 FROM clients
 WHERE
-    (
-        (balance >= 40000 AND debt != 0 AND debt * 2 < balance)
-        OR (balance < 5000 AND debt > 15000)
-    )
-  AND category NOT IN ('Заблокирован', 'Удален')
-ORDER BY debt DESC, client_id;
+    ((balance > 40000 AND debt != 0 AND debt * 2 < balance) OR (balance < 5000 AND debt > 15000))
+    AND category NOT IN ('Заблокирован', 'Удален')
+ORDER BY debt DESC, client_id ASC;
 
 
 ---------------------------------------------------------------------
@@ -76,10 +50,16 @@ INSERT INTO orders VALUES
 (4, 202, 'Оптовый', 1500),
 (5, 301, 'Розничный', 1800),
 (6, 302, 'Розничный', 1700.50);
--- sqlfluff:rules:enable=all
+
 -- РЕШЕНИЕ:
-
-
+SELECT
+    round(avg(amount), 2) AS avg_order,
+    sum(amount) AS total_amount,
+    count(order_id) AS count_order,
+    coalesce(category, 'Не указана') AS category
+FROM orders
+GROUP BY category
+ORDER BY category;
 ---------------------------------------------------------------------
 
 -- ЗАДАНИЕ 3
@@ -100,5 +80,18 @@ INSERT INTO animal_conditions VALUES
 (5, 'Буся', 'кошка', 7, 'Хронический дерматит'),
 (6, 'Мурка', 'кот', 12, 'Нет проблем'),
 (7, 'Адель', 'собака', 10, 'Нет проблем');
--- sqlfluff:rules:enable=all
 -- РЕШЕНИЕ:
+SELECT
+    animal_id,
+    animal_name,
+    species,
+    age_years,
+    diagnosis,
+    CASE
+        WHEN age_years < 1 OR diagnosis ILIKE '%хронич%' THEN 'Особый уход'
+        WHEN age_years > 10 THEN 'Пожилое животное'
+        WHEN age_years IS NULL OR diagnosis IS NULL THEN 'Недостаточно данных'
+        ELSE 'Стандартный уход'
+    END AS condition_status
+FROM animal_conditions
+ORDER BY animal_id;
