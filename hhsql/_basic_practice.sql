@@ -18,18 +18,6 @@ INSERT INTO clients VALUES
 (6, 'Федоров Николай Павлович', 48000, 15000, 'VIP', 710);
 
 -- РЕШЕНИЕ:
-SELECT
-    client_id,
-    full_name,
-    balance,
-    debt,
-    category,
-    credit_score
-FROM clients
-WHERE
-    ((balance > 40000 AND debt != 0 AND debt * 2 < balance) OR (balance < 5000 AND debt > 15000))
-    AND category NOT IN ('Заблокирован', 'Удален')
-ORDER BY debt DESC, client_id ASC;
 
 
 ---------------------------------------------------------------------
@@ -52,14 +40,7 @@ INSERT INTO orders VALUES
 (6, 302, 'Розничный', 1700.50);
 
 -- РЕШЕНИЕ:
-SELECT
-    round(avg(amount), 2) AS avg_order,
-    sum(amount) AS total_amount,
-    count(order_id) AS count_order,
-    coalesce(category, 'Не указана') AS category
-FROM orders
-GROUP BY category
-ORDER BY category;
+
 ---------------------------------------------------------------------
 
 -- ЗАДАНИЕ 3
@@ -81,6 +62,7 @@ INSERT INTO animal_conditions VALUES
 (6, 'Мурка', 'кот', 12, 'Нет проблем'),
 (7, 'Адель', 'собака', 10, 'Нет проблем');
 -- РЕШЕНИЕ:
+/*Классификация животных по условиям содержания*/
 SELECT
     animal_id,
     animal_name,
