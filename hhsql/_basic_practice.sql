@@ -40,6 +40,14 @@ INSERT INTO orders VALUES
 (6, 302, 'Розничный', 1700.50);
 
 -- РЕШЕНИЕ:
+SELECT
+    coalesce(category, 'Не указана) AS category,
+    count(order_id) AS order_count,
+    sum(amount) AS total_amont,
+    round(count(order_id), 2) AS avg_order
+FROM orders
+GROUP BY category
+ORDER BY category;
 
 ---------------------------------------------------------------------
 
@@ -54,7 +62,7 @@ CREATE TABLE animal_conditions (
 );
 -- ТЕСТОВЫЕ ДАННЫЕ:
 INSERT INTO animal_conditions VALUES
-(1, 'Барсик', 'кот', 1, 'Нет проблем'),
+(1, 'Барси к', 'кот', 1, 'Нет проблем'),
 (2, 'Пушок', 'собака', NULL, 'Аллергия'),
 (3, 'Ричи', 'кот', 0, 'Нет проблем'),
 (4, 'Лада', 'собака', 11, NULL),
