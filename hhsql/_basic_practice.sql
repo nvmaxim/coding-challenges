@@ -40,8 +40,9 @@ INSERT INTO orders VALUES
 (6, 302, 'Розничный', 1700.50);
 
 -- РЕШЕНИЕ:
+
 SELECT
-    coalesce(category, "Не указана") AS category,
+    coalesce(category, 'Не указана') AS category,
     count(order_id) AS order_count,
     sum(amount) AS total_amount,
     round(avg(amount), 2) AS avg_order
