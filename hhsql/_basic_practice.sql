@@ -41,15 +41,6 @@ INSERT INTO orders VALUES
 
 -- РЕШЕНИЕ:
 
-SELECT
-    coalesce(category, 'Не указана') AS category,
-    count(order_id) AS order_count,
-    sum(amount) AS total_amount,
-    round(avg(amount), 2) AS avg_order
-FROM orders
-GROUP BY category
-ORDER BY category;
-
 ---------------------------------------------------------------------
 
 -- ЗАДАНИЕ 3
@@ -70,8 +61,7 @@ INSERT INTO animal_conditions VALUES
 (5, 'Буся', 'кошка', 7, 'Хронический дерматит'),
 (6, 'Мурка', 'кот', 12, 'Нет проблем'),
 (7, 'Адель', 'собака', 10, 'Нет проблем');
--- РЕШЕНИЕ:
-/*Классификация животных по условиям содержания*/
+-- РЕШЕНИЕ
 SELECT
     animal_id,
     animal_name,
@@ -82,7 +72,7 @@ SELECT
         WHEN age_years < 1 OR diagnosis ILIKE '%хронич%' THEN 'Особый уход'
         WHEN age_years > 10 THEN 'Пожилое животное'
         WHEN age_years IS NULL OR diagnosis IS NULL THEN 'Недостаточно данных'
-        ELSE 'Стандартный уход'
+        ELSE 'Стандарнтный уход'
     END AS condition_status
 FROM animal_conditions
-ORDER BY animal_id;
+ORDER BY animal_id ASC;
