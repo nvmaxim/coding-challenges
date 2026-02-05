@@ -18,7 +18,18 @@ INSERT INTO clients VALUES
 (6, 'Федоров Николай Павлович', 48000, 15000, 'VIP', 710);
 
 -- РЕШЕНИЕ:
-
+SELECT
+    client_id,
+    full_name,
+    balance,
+    debt,
+    category,
+    credit_score
+FROM clients
+WHERE
+    ((balance >= 40000 AND debt != 0 AND debt * 2 < balance) OR balance <= 5000 AND debt >= 15000)
+    AND category NOT IN ILIKE('%заблок%', '%удал%')
+ORDER BY debt DESC, client_id ASC;
 
 ---------------------------------------------------------------------
 
@@ -41,10 +52,10 @@ INSERT INTO orders VALUES
 
 -- РЕШЕНИЕ:
 SELECT
-    round(avg(amount), 2) AS avg_order,
-    count(order_id) AS order_count,
-    sum(amount) AS total_amount,
-    coalesce(category, 'Не указана') AS category
+    ROUND(AVG(amount), 2) AS avg_order,
+    COUNT(order_id) AS order_count,
+    SUM(amount) AS total_amount,
+    COALESCE(category, 'Не указана') AS category
 FROM orders
 GROUP BY category
 ORDER BY category ASC;
