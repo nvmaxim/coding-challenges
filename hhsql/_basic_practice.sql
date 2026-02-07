@@ -51,14 +51,15 @@ INSERT INTO orders VALUES
 (6, 302, 'Розничный', 1700.50);
 
 -- РЕШЕНИЕ:
+
 SELECT
-    ROUND(AVG(amount), 2) AS avg_order,
+    COALESCE(category, 'Не указана') AS category,
     COUNT(order_id) AS order_count,
     SUM(amount) AS total_amount,
-    COALESCE(category, 'Не указана') AS category
+    ROUNT(AVG(amount), 2) AS avg_order
 FROM orders
 GROUP BY category
-ORDER BY category ASC;
+ORDER BY category;
 ---------------------------------------------------------------------
 
 -- ЗАДАНИЕ 3
