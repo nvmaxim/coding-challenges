@@ -51,15 +51,14 @@ INSERT INTO orders VALUES
 (6, 302, 'Розничный', 1700.50);
 
 -- РЕШЕНИЕ:
-
 SELECT
     COALESCE(category, 'Не указана') AS category,
     COUNT(order_id) AS order_count,
     SUM(amount) AS total_amount,
-    ROUNT(AVG(amount), 2) AS avg_order
+    ROUND(AVG(amount), 2) AS avg_order
 FROM orders
 GROUP BY category
-ORDER BY category;
+ORDER BY category ASC;
 ---------------------------------------------------------------------
 
 -- ЗАДАНИЕ 3
@@ -81,17 +80,3 @@ INSERT INTO animal_conditions VALUES
 (6, 'Мурка', 'кот', 12, 'Нет проблем'),
 (7, 'Адель', 'собака', 10, 'Нет проблем');
 -- РЕШЕНИЕ
-SELECT
-    animal_id,
-    animal_name,
-    species,
-    age_years,
-    diagnosis,
-    CASE
-        WHEN age_years < 1 OR diagnosis ILIKE '%хронич%' THEN 'Особый уход'
-        WHEN age_years > 10 THEN 'Пожилое животное'
-        WHEN age_years IS NULL OR diagnosis IS NULL THEN 'Недостаточно данных'
-        ELSE 'Стандарнтный уход'
-    END AS condition_status
-FROM animal_conditions
-ORDER BY animal_id ASC;
