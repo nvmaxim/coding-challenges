@@ -27,7 +27,10 @@ SELECT
     credit_score
 FROM clients
 WHERE
-    ((balance >= 40000 AND debt != 0 AND debt * 2 < balance) OR balance <= 5000 AND debt >= 15000)
+    (
+        (balance >= 40000 AND debt != 0 AND debt * 2 < balance)
+        OR balance <= 5000 AND debt >= 15000
+    )
     AND category NOT IN ILIKE('%заблок%', '%удал%')
 ORDER BY debt DESC, client_id ASC;
 
@@ -52,10 +55,10 @@ INSERT INTO orders VALUES
 
 -- РЕШЕНИЕ:
 SELECT
-    COALESCE(category, 'Не указана') AS category,
-    COUNT(order_id) AS order_count,
+    ROUND(AVG(amount), 2) AS avg_order,
     SUM(amount) AS total_amount,
-    ROUND(AVG(amount), 2) AS avg_order
+    COALESCE(category, 'Не указана') AS category,
+    COUNT(order_id) AS order_count
 FROM orders
 GROUP BY category
 ORDER BY category ASC;
