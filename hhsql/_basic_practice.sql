@@ -19,20 +19,13 @@ INSERT INTO clients VALUES
 
 -- РЕШЕНИЕ:
 SELECT
-    client_id,
-    full_name,
-    balance,
-    debt,
-    category,
-    credit_score
+    COALLESCE(category, 'Не указана') AS category,
+    COUNT(order_id) AS order_count,
+    SUM(amount) AS total_amount,
+    ROUND(AVG(amount, 2)) AS avg_order
 FROM clients
-WHERE
-    (
-        (balance >= 40000 AND debt > 0 AND debt * 2 < balance)
-        OR (balance < 5000 AND debt >= 15000)
-    )
-    AND category NOT IN ('Заблокирвоан', 'Удален')
-ORDER BY debt DESC, client_id ASC;
+GROUP BY category
+ORDER BY category ASC;
 
 ---------------------------------------------------------------------
 
@@ -54,14 +47,6 @@ INSERT INTO orders VALUES
 (6, 302, 'Розничный', 1700.50);
 
 -- РЕШЕНИЕ:
-SELECT
-    round(avg(amount), 2) AS avg_order,
-    sum(amount) AS total_amount,
-    coalesce(category, 'Не указана') AS category,
-    count(order_id) AS order_count
-FROM orders
-GROUP BY category
-ORDER BY category ASC;
 ---------------------------------------------------------------------
 
 -- ЗАДАНИЕ 3
