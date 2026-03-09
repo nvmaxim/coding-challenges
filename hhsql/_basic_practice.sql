@@ -18,14 +18,7 @@ INSERT INTO clients VALUES
 (6, 'Федоров Николай Павлович', 48000, 15000, 'VIP', 710);
 
 -- РЕШЕНИЕ:
-SELECT
-    COALLESCE(category, 'Не указана') AS category,
-    COUNT(order_id) AS order_count,
-    SUM(amount) AS total_amount,
-    ROUND(AVG(amount, 2)) AS avg_order
-FROM clients
-GROUP BY category
-ORDER BY category ASC;
+
 
 ---------------------------------------------------------------------
 
@@ -68,3 +61,12 @@ INSERT INTO animal_conditions VALUES
 (6, 'Мурка', 'кот', 12, 'Нет проблем'),
 (7, 'Адель', 'собака', 10, 'Нет проблем');
 -- РЕШЕНИЕ
+SELECT *, 
+    CASE
+        WHEN age_years <= 1 or diagnosis ilike '%роничес%' then 'Особый уход'
+        when age_years >= 10 THEN 'Пожилое животное'
+        when age_years IN NULL or diagnosis IS NULL then 'Недостаточно данных'
+        else 'Стандартный уход'
+    END as condition_stat   us
+FROM animal_conditions
+ORDER BY animal_id DESC;
