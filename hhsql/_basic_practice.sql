@@ -41,6 +41,14 @@ INSERT INTO orders VALUES
 
 -- РЕШЕНИЕ:
 
+select 
+    coalesce(category, 'ne ukazan') as category,
+    count(order_id) as order_count,
+    sum(amount) as total_amount,
+    round(avg(amount), 2) as avg_order
+from orders
+group by category
+oreder by category asc;
 
 ---------------------------------------------------------------------
 
